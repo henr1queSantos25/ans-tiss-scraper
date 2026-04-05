@@ -91,6 +91,28 @@ class AnsScraperService {
         fileService.salvarDadosEmCsv(versoesValidas, destinationDir, fileName)
     }
 
+    void executeTask3() {
+        println("\n--- Iniciando Task 3: Download da Tabela de Erros ---")
+
+        Document doc = webClient.getHtmlDocument(BASE_URL)
+
+        String prestadorUrl = extractUrlByText(doc, "Espaço do Prestador de Serviços de Saúde")
+        doc = webClient.getHtmlDocument(prestadorUrl)
+
+        String tissUrl = extractUrlByText(doc, "TISS - Padrão para Troca de Informação de Saúde Suplementar")
+        doc = webClient.getHtmlDocument(tissUrl)
+
+        String planilhasUrl = extractUrlByText(doc, "Clique aqui para acessar as planilhas")
+        doc = webClient.getHtmlDocument(planilhasUrl)
+
+        String urlTabelaErros = extractUrlByText(doc, "Clique aqui para baixar a tabela de erros no envio para a ANS (.xlsx)")
+
+        String destinationDir = "./Downloads/Arquivos_padrao_TISS"
+        String fileName = "Tabela_de_Erros_ANS.xlsx"
+
+        fileService.downloadFile(urlTabelaErros, destinationDir, fileName)
+    }
+
 
     private String extractUrlByText(Document doc, String searchText) {
         Element linkElement = doc.select("a:contains(${searchText})").first()
