@@ -27,7 +27,8 @@ class EmailRepository {
         }
 
         List<Interessado> lista = []
-        file.eachLine(1) { line ->
+
+        file.readLines().drop(1).each { line ->
             if (line.trim()) {
                 lista.add(new Interessado(email: line.trim()))
             }

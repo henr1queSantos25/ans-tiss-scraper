@@ -1,19 +1,12 @@
-import service.AnsScraperService
+import view.Menu
 
 class Main {
     static void main(String[] args) {
-        println ("========================================")
-        println ("    Iniciando ANS TISS Scraper")
-        println ("========================================\n")
-
         try {
-            AnsScraperService scraper = new AnsScraperService()
-            scraper.executeTask1()
-            scraper.executeTask2()
-            scraper.executeTask3()
-
+            Menu menu = new Menu()
+            menu.iniciar()
         } catch (Exception e) {
-            System.err.println("A execução falhou: ${e.message}")
+            System.err.println("Erro crítico na aplicação: ${e.message}")
             e.printStackTrace()
         }
     }

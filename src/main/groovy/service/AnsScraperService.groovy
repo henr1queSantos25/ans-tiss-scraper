@@ -122,4 +122,17 @@ class AnsScraperService {
         }
         return url
     }
+
+    boolean todosArquivosExistem() {
+        String diretorio = "./Downloads/Arquivos_padrao_TISS"
+        List<String> arquivosObrigatorios = [
+                "Componente_de_Comunicacao.zip",
+                "historico_versoes_tiss.csv",
+                "Tabela_de_Erros_ANS.xlsx"
+        ]
+
+        return arquivosObrigatorios.every { nome ->
+            new File(diretorio, nome).exists()
+        }
+    }
 }
