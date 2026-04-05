@@ -20,13 +20,7 @@ class AnsScraperService {
     void executeTask1() {
         println("--- Iniciando Task 1: Busca do Componente de Comunicação ---")
 
-        Document doc = webClient.getHtmlDocument(BASE_URL)
-
-        String prestadorUrl = extractUrlByText(doc, "Espaço do Prestador de Serviços de Saúde")
-        doc = webClient.getHtmlDocument(prestadorUrl)
-
-        String tissUrl = extractUrlByText(doc, "TISS - Padrão para Troca de Informação de Saúde Suplementar")
-        doc = webClient.getHtmlDocument(tissUrl)
+        Document doc = navigateToTissBasePage()
 
         String latestVersionUrl = extractUrlByText(doc, "Clique aqui para acessar a versão")
         doc = webClient.getHtmlDocument(latestVersionUrl)
@@ -49,13 +43,7 @@ class AnsScraperService {
     void executeTask2() {
         println("\n--- Iniciando Task 2: Histórico de Versões (>= jan/2016) ---")
 
-        Document doc = webClient.getHtmlDocument(BASE_URL)
-
-        String prestadorUrl = extractUrlByText(doc, "Espaço do Prestador de Serviços de Saúde")
-        doc = webClient.getHtmlDocument(prestadorUrl)
-
-        String tissUrl = extractUrlByText(doc, "TISS - Padrão para Troca de Informação de Saúde Suplementar")
-        doc = webClient.getHtmlDocument(tissUrl)
+        Document doc = navigateToTissBasePage()
 
         String historicoUrl = extractUrlByText(doc, "Clique aqui para acessar todas as versões dos Componentes")
         doc = webClient.getHtmlDocument(historicoUrl)
@@ -94,13 +82,7 @@ class AnsScraperService {
     void executeTask3() {
         println("\n--- Iniciando Task 3: Download da Tabela de Erros ---")
 
-        Document doc = webClient.getHtmlDocument(BASE_URL)
-
-        String prestadorUrl = extractUrlByText(doc, "Espaço do Prestador de Serviços de Saúde")
-        doc = webClient.getHtmlDocument(prestadorUrl)
-
-        String tissUrl = extractUrlByText(doc, "TISS - Padrão para Troca de Informação de Saúde Suplementar")
-        doc = webClient.getHtmlDocument(tissUrl)
+        Document doc = navigateToTissBasePage()
 
         String planilhasUrl = extractUrlByText(doc, "Clique aqui para acessar as planilhas")
         doc = webClient.getHtmlDocument(planilhasUrl)
@@ -111,6 +93,17 @@ class AnsScraperService {
         String fileName = "Tabela_de_Erros_ANS.xlsx"
 
         fileService.downloadFile(urlTabelaErros, destinationDir, fileName)
+    }
+
+    private Document navigateToTissBasePage() {
+        println("Navegando até a página principal do Padrão TISS...")
+        Document doc = webClient.getHtmlDocument(BASE_URL)
+
+        String prestadorUrl = extractUrlByText(doc, "Espaço do Prestador de Serviços de Saúde")
+        doc = webClient.getHtmlDocument(prestadorUrl)
+
+        String tissUrl = extractUrlByText(doc, "TISS - Padrão para Troca de Informação de Saúde Suplementar")
+        return webClient.getHtmlDocument(tissUrl)
     }
 
 
