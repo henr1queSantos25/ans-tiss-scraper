@@ -16,6 +16,10 @@ dependencies {
     implementation 'com.sun.mail:jakarta.mail:2.0.1'
 }
 
+application {
+    mainClass = 'Main'
+}
+
 run {
     standardInput = System.in
 }
